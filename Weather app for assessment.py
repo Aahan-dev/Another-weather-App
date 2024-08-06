@@ -25,4 +25,40 @@ def show_current_weather(location):
         max_temp: int = current_weather_data['main']['temp_max']
         record_interaction(location, current_temp, current_humidity, current_weather, interactions)
         
-        
+        # Prints the current weather conditions
+        print(f"The current temperature in {location} is {current_temp}°C")
+        print(f"""The current weather conditions are {current_weather}""")
+        print(f"The current temperature feels like {current_feels_like}°C")
+        print(f"The current humidity is {current_humidity}%")
+        print(f"The current visibility is {current_visibility}m")
+        print(f"The minimum temperature is {min_temp}°C")
+        print(f"The maximum temperature is {max_temp}°C")
+   
+    elif current_weather_response.status_code in range(400, 500):
+        print("User error, either the city you have used does not exist or you have spelled the name wrong, try again")
+        return -1,-1,-1,-1,-1,-1,-1,-1
+   
+    elif current_weather_response.status_code in range(500, 600):
+        print("Server error, servers may be down, try again later")
+        return -1,-1,-1,-1,-1,-1,-1,-1
+
+
+def get_5day_forecast(location):
+    forecast_url = f'http://api.openweathermap.org/data/2.5/forecast?q={location}&appid={api_key}&units=metric'
+    forecast_response = requests.get(forecast_url)
+    forecast_data = json.loads(forecast_response.text)
+
+
+    forecast_list = forecast_data['list']
+
+
+    forecast = {}
+    for f in forecast_list:
+        date = f['dt_txt'][:10]
+        if date not in forecast:
+            forecast[date] = {
+                'temp': f['main']['temp'],
+                'weather': f['weather'][0]['description']
+            }
+            record_interaction(location, f['main']['temp'], f['main']['humidity'], f['weather'][0]['description'], interactions)
+    print("\n5-day forecast:")
