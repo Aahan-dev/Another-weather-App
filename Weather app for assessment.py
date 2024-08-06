@@ -62,3 +62,44 @@ def get_5day_forecast(location):
             }
             record_interaction(location, f['main']['temp'], f['main']['humidity'], f['weather'][0]['description'], interactions)
     print("\n5-day forecast:")
+    
+    
+
+    for date, weather in forecast.items():
+        print(f'{date}: Temperature: {weather["temp"]}°C, Weather: {weather["weather"]}')
+
+
+def record_interaction(city, temperature, humidity, conditions, interactions):
+    interactions.append({
+        'City': city,
+        'Temperature': temperature,
+        'Humidity': humidity,
+        'Conditions': conditions
+    })
+
+
+def display_interactions(interactions):
+    print("Past Interactions:")
+    for interaction in interactions:
+        print(f"City: {interaction['City']}")
+        print(f"Temperature: {interaction['Temperature']}°C")
+        print(f"Humidity: {interaction['Humidity']}%")
+        print(f"Conditions: {interaction['Conditions']}")
+        print()
+   
+
+
+def weather_app():
+    while True:
+        choice = input("""
+        Aahan's Weather App Menu:
+        1. Current Weather
+        2. 5-Day Forecast
+        3. Exit
+        4. Help
+        5. History
+        Enter choice: """)
+       
+        if choice == '1':
+            location = input("Enter location: ")
+            show_current_weather(location)
