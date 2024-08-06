@@ -103,3 +103,36 @@ def weather_app():
         if choice == '1':
             location = input("Enter location: ")
             show_current_weather(location)
+            
+        
+
+           
+        elif choice == '2':
+            location = input("Enter location: ")
+            get_5day_forecast(location)
+           
+        elif choice == '3':
+            break
+       
+        elif choice == '4':
+            print(" When the menu is displayed, enter the number corresponding to the action you would like to perform")
+            time.sleep(1)
+            print("A display of what the menu looks like is posted below")
+            time.sleep(1)
+            print("""
+            Aahan's Weather App Menu:
+            1. Current Weather
+            2. 5-Day Forecast
+            3. Exit
+            4. Help
+            5. History
+            """)
+       
+        elif choice == '5':
+            display_interactions(interactions)
+       
+        else:
+            print("Invalid choice")
+
+
+weather_app()
